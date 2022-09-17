@@ -33,10 +33,7 @@ def _ytdl(bot, message, isZip=False, isLeech=False):
 
     name = mssg.split('|', maxsplit=1)
     if len(name) > 1:
-        if 'opt: ' in name[0] or 'pswd: ' in name[0]:
-            name = ''
-        else:
-            name = name[1]
+        name = '' if 'opt: ' in name[0] or 'pswd: ' in name[0] else name[1]
         if name != '':
             name = re_split('pswd:|opt:', name)[0]
             name = name.strip()
@@ -51,11 +48,7 @@ def _ytdl(bot, message, isZip=False, isLeech=False):
         pswd = None
 
     opt = mssg.split(' opt: ')
-    if len(opt) > 1:
-        opt = opt[1]
-    else:
-        opt = None
-
+    opt = opt[1] if len(opt) > 1 else None
     if message.from_user.username:
         tag = f"@{message.from_user.username}"
     else:
@@ -104,7 +97,7 @@ Check all arguments from this <a href='https://github.com/yt-dlp/yt-dlp/blob/mas
         result = ydl.extractMetaData(link, name, opt, True)
     except Exception as e:
         msg = str(e).replace('<', ' ').replace('>', ' ')
-        return sendMessage(tag + " " + msg, bot, message)
+        return sendMessage(f"{tag} {msg}", bot, message)
     formats_dict = {}
     if 'entries' in result:
         for i in ['144', '240', '360', '480', '720', '1080', '1440', '2160']:
@@ -156,8 +149,7 @@ Check all arguments from this <a href='https://github.com/yt-dlp/yt-dlp/blob/mas
                     if b_name in formats_dict:
                         formats_dict[b_name][str(frmt['tbr'])] = [size, v_format]
                     else:
-                        subformat = {}
-                        subformat[str(frmt['tbr'])] = [size, v_format]
+                        subformat = {str(frmt['tbr']): [size, v_format]}
                         formats_dict[b_name] = subformat
 
             for b_name, d_dict in formats_dict.items():
@@ -238,10 +230,7 @@ def select_format(update, context):
         return editMessage('Choose Video Quality:', msg, task_info[4])
     elif data[2] == "mp3":
         query.answer()
-        if len(data) == 4:
-            playlist = True
-        else:
-            playlist = False
+        playlist = len(data) == 4
         _mp3_subbuttons(task_id, msg, playlist)
         return
     elif data[2] == "cancel":
