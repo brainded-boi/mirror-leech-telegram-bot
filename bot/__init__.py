@@ -96,7 +96,7 @@ AUTHORIZED_CHATS = set()
 SUDO_USERS = set()
 AS_DOC_USERS = set()
 AS_MEDIA_USERS = set()
-EXTENSION_FILTER = set(['.aria2'])
+EXTENSION_FILTER = {'.aria2'}
 
 def getConfig(name: str):
     return environ[name]
@@ -106,7 +106,7 @@ try:
     parent_id = getConfig('GDRIVE_FOLDER_ID')
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if not DOWNLOAD_DIR.endswith("/"):
-        DOWNLOAD_DIR = DOWNLOAD_DIR + '/'
+        DOWNLOAD_DIR = f'{DOWNLOAD_DIR}/'
     DOWNLOAD_STATUS_UPDATE_INTERVAL = int(getConfig('DOWNLOAD_STATUS_UPDATE_INTERVAL'))
     OWNER_ID = int(getConfig('OWNER_ID'))
     AUTO_DELETE_MESSAGE_DURATION = int(getConfig('AUTO_DELETE_MESSAGE_DURATION'))
@@ -192,17 +192,9 @@ else:
     LEECH_SPLIT_SIZE = int(LEECH_SPLIT_SIZE)
 
 DUMP_CHAT = environ.get('DUMP_CHAT', '')
-if len(DUMP_CHAT) == 0:
-    DUMP_CHAT = None
-else:
-    DUMP_CHAT = int(DUMP_CHAT)
-
+DUMP_CHAT = None if len(DUMP_CHAT) == 0 else int(DUMP_CHAT)
 STATUS_LIMIT = environ.get('STATUS_LIMIT', '')
-if len(STATUS_LIMIT) == 0:
-    STATUS_LIMIT = None
-else:
-    STATUS_LIMIT = int(STATUS_LIMIT)
-
+STATUS_LIMIT = None if len(STATUS_LIMIT) == 0 else int(STATUS_LIMIT)
 UPTOBOX_TOKEN = environ.get('UPTOBOX_TOKEN', '')
 if len(UPTOBOX_TOKEN) == 0:
     UPTOBOX_TOKEN = None
@@ -219,11 +211,7 @@ if len(SEARCH_API_LINK) == 0:
     SEARCH_API_LINK = None
 
 SEARCH_LIMIT = environ.get('SEARCH_LIMIT', '')
-if len(SEARCH_LIMIT) == 0:
-    SEARCH_LIMIT = 0
-else:
-    SEARCH_LIMIT = int(SEARCH_LIMIT)
-
+SEARCH_LIMIT = 0 if len(SEARCH_LIMIT) == 0 else int(SEARCH_LIMIT)
 RSS_COMMAND = environ.get('RSS_COMMAND', '')
 if len(RSS_COMMAND) == 0:
     RSS_COMMAND = None
@@ -231,23 +219,11 @@ if len(RSS_COMMAND) == 0:
 CMD_INDEX = environ.get('CMD_INDEX', '')
 
 RSS_CHAT_ID = environ.get('RSS_CHAT_ID', '')
-if len(RSS_CHAT_ID) == 0:
-    RSS_CHAT_ID = None
-else:
-    RSS_CHAT_ID = int(RSS_CHAT_ID)
-
+RSS_CHAT_ID = None if len(RSS_CHAT_ID) == 0 else int(RSS_CHAT_ID)
 RSS_DELAY = environ.get('RSS_DELAY', '')
-if len(RSS_DELAY) == 0:
-    RSS_DELAY = 900
-else:
-    RSS_DELAY = int(RSS_DELAY)
-
+RSS_DELAY = 900 if len(RSS_DELAY) == 0 else int(RSS_DELAY)
 TORRENT_TIMEOUT = environ.get('TORRENT_TIMEOUT', '')
-if len(TORRENT_TIMEOUT) == 0:
-    TORRENT_TIMEOUT = None
-else:
-    TORRENT_TIMEOUT = int(TORRENT_TIMEOUT)
-
+TORRENT_TIMEOUT = None if len(TORRENT_TIMEOUT) == 0 else int(TORRENT_TIMEOUT)
 BASE_URL = environ.get('BASE_URL_OF_BOT', '').rstrip("/")
 if len(BASE_URL) == 0:
     log_warning('BASE_URL_OF_BOT not provided!')
